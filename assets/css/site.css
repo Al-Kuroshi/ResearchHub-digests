@@ -1,0 +1,241 @@
+/* ResearchHub Digest: a two-ink riso bulletin.
+   Inks: fluorescent pink and riso blue, overprinting (multiply) where they
+   meet. Floods and marks only in the frame; the reading column stays calm. */
+
+@font-face { font-family: "Archivo"; src: url("../fonts/archivo.woff2") format("woff2"); font-weight: 100 900; font-stretch: 62% 125%; font-display: swap; }
+@font-face { font-family: "Literata"; src: url("../fonts/literata.woff2") format("woff2"); font-weight: 200 900; font-style: normal; font-display: swap; }
+@font-face { font-family: "Literata"; src: url("../fonts/literata-italic.woff2") format("woff2"); font-weight: 200 900; font-style: italic; font-display: swap; }
+@font-face { font-family: "JetBrains Mono"; src: url("../fonts/jetbrains-mono.woff2") format("woff2"); font-weight: 100 800; font-display: swap; }
+
+:root {
+  --pink: #FF48B0;        /* ink 1: floods, citation blocks */
+  --pink-deep: #E0137E;   /* ink 1 printed heavy, for numerals on paper (4.2:1) */
+  --blue: #0078BF;        /* ink 2: floods, overprint */
+  --blue-text: #00639F;   /* ink 2 where it sets small text on paper (5.6:1) */
+  --overprint: #002284;   /* blue over pink, as the press would print it */
+  --paper: #F6F6F1;
+  --ink: #1D2340;
+  --ink-soft: #3D4466;
+  --rule: rgba(29, 35, 64, .16);
+  --pink-wash: rgba(255, 72, 176, .13);
+
+  --display: "Archivo", "Arial Narrow", sans-serif;
+  --read: "Literata", Georgia, serif;
+  --mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --gutter: clamp(20px, 4vw, 56px);
+  --col: 680px;
+  --rail: 210px;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scrollbar-color: var(--blue) var(--paper); scroll-behavior: smooth; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 400 17.5px/1.62 var(--read); text-rendering: optimizeLegibility; caret-color: var(--pink); }
+::selection { background: var(--pink); color: var(--ink); }
+:focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+img, svg { display: block; }
+h1, h2, h3, h4, p, ol, ul, dl, dd { margin: 0; }
+a { color: inherit; text-decoration-thickness: 1.5px; text-underline-offset: .18em; text-decoration-color: var(--pink); }
+a:hover { text-decoration-thickness: 3px; }
+code { font: 500 .86em var(--mono); background: rgba(0, 120, 191, .1); padding: .05em .3em; border-radius: 2px; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.skip { position: absolute; left: var(--gutter); top: -60px; z-index: 10; background: var(--ink); color: var(--paper); padding: 10px 14px; font: 700 14px var(--display); }
+.skip:focus { top: 12px; }
+
+/* ── Masthead: pink flood, title overprinted in blue, issue number knocked out ── */
+.mast { position: relative; background: var(--pink); overflow: hidden; isolation: isolate; }
+.mast-in { position: relative; max-width: 1440px; margin: 0 auto; padding: clamp(22px, 3vw, 34px) var(--gutter) clamp(26px, 3.4vw, 40px); min-height: clamp(170px, 20vw, 252px); display: flex; flex-direction: column; justify-content: space-between; }
+.mast-title { position: relative; z-index: 1; width: max-content; font: 900 clamp(44px, 6.6vw, 96px)/.86 var(--display); font-stretch: 118%; letter-spacing: -.035em; color: var(--overprint); text-decoration: none; text-shadow: 2px 1px 0 rgba(0, 120, 191, .38); animation: register 1.1s cubic-bezier(.16, 1, .3, 1) both; }
+.mast-title:hover { text-decoration: none; }
+.mast-nav { position: relative; z-index: 3; display: flex; gap: clamp(16px, 2.4vw, 30px); order: -1; align-self: flex-end; margin-bottom: 18px; font: 700 13px/1 var(--mono); letter-spacing: .1em; text-transform: uppercase; }
+.mast-nav a { color: var(--ink); text-decoration: none; padding: 6px 0; border-bottom: 2px solid transparent; }
+.mast-nav a:hover, .mast-nav a[aria-current] { border-bottom-color: var(--ink); }
+.mast-no { position: absolute; right: calc(var(--gutter) - .06em); bottom: -.17em; z-index: 0; font: 900 clamp(150px, 21vw, 300px)/1 var(--display); font-stretch: 72%; letter-spacing: -.04em; color: var(--blue); mix-blend-mode: multiply; font-variant-numeric: tabular-nums; user-select: none; }
+@keyframes register { from { text-shadow: 9px 5px 0 rgba(0, 120, 191, .38); transform: translate(-3px, -2px); } }
+
+/* ── Issue band: every fact of the issue, dense, in the blue flood ── */
+.band { background: var(--blue); color: #fff; position: relative; }
+.band-in { max-width: 1440px; margin: 0 auto; padding: 11px var(--gutter); display: flex; flex-wrap: wrap; gap: 6px 30px; font: 500 12.5px/1.45 var(--mono); letter-spacing: .03em; }
+.band-in > div { display: flex; gap: 8px; }
+.band dt { text-transform: uppercase; letter-spacing: .12em; font-weight: 500; }
+.band dt::after { content: ":"; }
+.band dd b { font-weight: 800; }
+
+/* ── Page grid: contents rail · reading column · margin column ── */
+.issue, .home-main, .page-main { max-width: 1440px; margin: 0 auto; padding: clamp(28px, 4vw, 52px) var(--gutter) 40px; }
+.issue { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); gap: 0 clamp(28px, 3.4vw, 52px); }
+.flow { min-width: 0; }
+.row { display: grid; grid-template-columns: minmax(0, var(--col)) minmax(220px, 1fr); gap: 0 clamp(28px, 3.4vw, 56px); padding: 34px 0 38px; border-top: 2px solid var(--ink); }
+.row.lead { border-top: 0; padding-top: 0; }
+.col { min-width: 0; }
+
+.rail { position: relative; }
+.rail details { position: sticky; top: 24px; }
+.rail summary { list-style: none; cursor: pointer; font: 700 11.5px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--blue-text); padding-bottom: 12px; }
+.rail summary::-webkit-details-marker { display: none; }
+.rail summary::after { content: "–"; display: inline-block; margin-left: 10px; padding: 0 5px; background: var(--pink); color: var(--ink); font-weight: 800; letter-spacing: 0; }
+.rail details:not([open]) summary::after { content: "+"; }
+@media (min-width: 1181px) { .rail summary::after { display: none; } .rail summary { cursor: default; } }
+.rail-list { list-style: none; padding: 0; font: 650 14.5px/1.3 var(--display); font-stretch: 92%; }
+.rail-list a { display: flex; justify-content: space-between; gap: 8px; padding: 7px 0 7px 18px; color: var(--ink); text-decoration: none; position: relative; }
+.rail-list a::before { content: ""; position: absolute; left: 0; top: 50%; width: 9px; height: 9px; margin-top: -4.5px; background: transparent; box-shadow: inset 0 0 0 1.5px var(--rule); }
+.rail-list a:hover::before { box-shadow: inset 0 0 0 1.5px var(--ink); }
+.rail-list a[aria-current]::before { background: var(--pink); box-shadow: none; }
+.rail-list a[aria-current] { color: var(--ink); }
+.rail-count { font: 500 11.5px var(--mono); color: var(--blue-text); }
+
+/* ── Reading column ── */
+h1 { font: 800 clamp(32px, 3.6vw, 50px)/1.06 var(--display); font-stretch: 106%; letter-spacing: -.02em; text-wrap: balance; margin-bottom: 20px; }
+h1 a { text-decoration: none; }
+h1 a:hover { text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: 4px; }
+.lede { font-size: 19.5px; line-height: 1.6; max-width: 66ch; }
+.row h2, .items-head, .archive-head { font: 900 clamp(22px, 2vw, 27px)/1.1 var(--display); font-stretch: 112%; letter-spacing: -.01em; text-transform: uppercase; color: var(--blue-text); margin-bottom: 18px; }
+.entry { margin-top: 22px; }
+.entry:first-of-type { margin-top: 0; }
+.entry h3 { font: 700 19.5px/1.3 var(--display); letter-spacing: -.005em; margin-bottom: 6px; text-wrap: balance; }
+.entry p { max-width: 68ch; }
+.directions { padding-left: 1.4em; }
+.directions li { margin-bottom: 12px; padding-left: .3em; max-width: 68ch; }
+.directions li::marker { font: 800 15px var(--mono); color: var(--blue-text); }
+.note { color: var(--ink-soft); font-size: 16px; margin: -8px 0 18px; max-width: 64ch; }
+
+/* Citations: blocks of pink ink with the number printed on them. */
+.cite { display: inline-block; min-width: 1.7em; padding: 0 .32em; margin: 0 .06em; text-align: center; background: var(--pink); color: var(--ink); font: 700 .74em/1.55 var(--mono); text-decoration: none; vertical-align: .08em; font-variant-numeric: tabular-nums; transition: background-color .15s, color .15s; }
+.cite:hover { background: var(--overprint); color: #fff; text-decoration: none; }
+.cites { white-space: normal; }
+
+/* ── Margin column ── */
+.margin { border-left: 1px solid var(--blue); padding-left: 22px; align-self: start; position: sticky; top: 24px; }
+.margin-head { font: 700 11.5px/1 var(--mono); letter-spacing: .14em; text-transform: uppercase; color: var(--blue-text); margin-bottom: 14px; }
+.margin-p { font-size: 15.5px; line-height: 1.55; color: var(--ink-soft); }
+.margin-more { font: 500 12px var(--mono); color: var(--blue-text); margin-top: 6px; }
+.refs { list-style: none; padding: 0; }
+.refs li + li { margin-top: 12px; }
+.refs a { display: grid; grid-template-columns: 2.4em 1fr; column-gap: 10px; text-decoration: none; }
+.ref-n { grid-row: span 2; font: 900 26px/1 var(--display); font-stretch: 75%; color: var(--pink-deep); text-align: right; font-variant-numeric: tabular-nums; }
+.ref-t { font: 600 14.5px/1.3 var(--display); }
+.refs a:hover .ref-t { text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: 2px; }
+.ref-m { font: 500 11.5px/1.5 var(--mono); color: var(--blue-text); margin-top: 3px; }
+.tally { list-style: none; padding: 0; font: 600 14.5px/1.3 var(--display); }
+.tally li { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-bottom: 1px solid var(--rule); }
+.tally-n { font: 700 13px var(--mono); color: var(--blue-text); font-variant-numeric: tabular-nums; }
+
+/* ── Items: numbers in a strict hanging margin, topics opened by blue floods ── */
+.items { border-top: 2px solid var(--ink); padding-top: 34px; max-width: calc(var(--col) + 88px); }
+.topic { margin-top: 30px; }
+.topic-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; background: var(--blue); color: #fff; padding: 9px 14px; margin: 0 0 6px 88px; font: 800 16px/1.25 var(--display); font-stretch: 108%; letter-spacing: .01em; text-transform: uppercase; }
+.topic-n { font: 700 12.5px var(--mono); }
+.shelf-head .topic-n { color: var(--blue-text); }
+.item { position: relative; display: block; padding: 20px 0 22px 88px; border-bottom: 1px solid var(--rule); scroll-margin-top: 20px; }
+.item-n { position: absolute; left: 0; top: 14px; width: 68px; text-align: right; font: 900 44px/1 var(--display); font-stretch: 70%; letter-spacing: -.02em; color: var(--pink-deep); font-variant-numeric: tabular-nums; }
+.item-t { font: 700 20px/1.28 var(--display); letter-spacing: -.005em; text-wrap: balance; }
+.item-t a { text-decoration: none; }
+.item-t a:hover { text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: 2.5px; }
+.ext { display: inline-block; width: .55em; height: .55em; margin-left: .3em; vertical-align: .12em; color: var(--blue-text); }
+.item-m { font: 500 12.5px/1.5 var(--mono); color: var(--blue-text); margin: 6px 0 10px; }
+.item-s { max-width: 68ch; font-size: 16.5px; }
+.item-f { margin: 10px 0 0; padding-left: 1.1em; font-size: 16px; max-width: 66ch; }
+.item-f li { margin-bottom: 4px; }
+.item-f li::marker { content: "■  "; color: var(--pink); font-size: .7em; }
+.item-w { margin-top: 10px; font-size: 16px; color: var(--ink-soft); max-width: 68ch; }
+.item-w b { font: 700 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink); margin-right: .4em; }
+
+/* Signature: a followed citation prints a pink registration mark on its item. */
+.item:target { background: linear-gradient(90deg, var(--pink-wash), transparent 70%); }
+.item:target::before { content: ""; position: absolute; left: 6px; top: 66px; width: 30px; height: 30px; background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30' fill='none' stroke='%23FF48B0' stroke-width='2'%3E%3Ccircle cx='15' cy='15' r='8'/%3E%3Cpath d='M15 1v28M1 15h28'/%3E%3C/svg%3E"); mix-blend-mode: multiply; animation: mark .5s cubic-bezier(.16, 1, .3, 1) both; }
+@keyframes mark { from { transform: scale(1.8) rotate(-20deg); opacity: 0; } }
+
+/* Printed states */
+.stamp { display: inline-block; margin: 6px 0 16px; padding: 8px 14px; border: 2.5px solid var(--blue-text); color: var(--blue-text); font: 800 13.5px/1.2 var(--mono); letter-spacing: .1em; text-transform: uppercase; transform: rotate(-1.5deg); }
+.struck { margin: 22px 0 0 88px; font: 600 13px var(--mono); letter-spacing: .04em; color: var(--ink-soft); text-decoration: line-through; text-decoration-color: var(--pink); text-decoration-thickness: 3px; }
+
+/* ── Suggested sources ── */
+.sugg { list-style: none; padding: 0; }
+.sugg li { padding: 14px 0; border-bottom: 1px solid var(--rule); }
+.sugg li > a { font: 700 18px/1.3 var(--display); }
+.sugg-type { display: inline-block; margin-left: 8px; padding: 1px 7px; border: 1.5px solid var(--blue-text); color: var(--blue-text); font: 600 11.5px/1.5 var(--mono); letter-spacing: .06em; text-transform: uppercase; vertical-align: .15em; }
+.sugg-r { display: block; margin-top: 5px; font-size: 16px; color: var(--ink-soft); max-width: 68ch; }
+
+/* ── Pager and colophon ── */
+.pager { display: grid; grid-template-columns: 1fr auto 1fr; gap: 16px; border-top: 2px solid var(--ink); padding-top: 22px; margin-top: 44px; max-width: calc(var(--col) + 88px); }
+.pager a { text-decoration: none; display: flex; flex-direction: column; gap: 4px; }
+.pager-all { justify-self: center; align-self: center; }
+.pager-next { grid-column: 3; text-align: right; align-items: flex-end; }
+.pager-dir { font: 800 15px var(--display); text-transform: uppercase; letter-spacing: .02em; }
+.pager a:hover .pager-dir { text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: 3px; }
+.pager-t { font: 500 12.5px var(--mono); color: var(--blue-text); }
+.colophon { margin-top: 26px; font: 500 12px var(--mono); color: var(--ink-soft); }
+
+/* ── Home: latest issue and the archive ── */
+.read { display: inline-flex; align-items: center; gap: 12px; margin-top: 26px; padding: 13px 18px; background: var(--blue); color: #fff; font: 800 15px var(--display); text-transform: uppercase; letter-spacing: .03em; text-decoration: none; transition: background-color .15s, color .15s; }
+.read svg { width: 16px; height: 12px; transition: transform .2s cubic-bezier(.16, 1, .3, 1); }
+.read:hover { background: var(--pink); color: var(--ink); text-decoration: none; }
+.read:hover svg { transform: translateX(4px); }
+.archive { border-top: 2px solid var(--ink); padding-top: 34px; }
+.shelf { margin-top: 24px; }
+.shelf-head { display: flex; align-items: baseline; gap: 12px; font: 800 20px var(--display); margin-bottom: 8px; }
+.issues { list-style: none; padding: 0; border-top: 1px solid var(--rule); }
+.issues a { display: grid; grid-template-columns: 76px 190px minmax(0, 1fr) 90px; align-items: baseline; gap: 18px; padding: 14px 10px 14px 0; border-bottom: 1px solid var(--rule); text-decoration: none; transition: background-color .15s; }
+.issues a:hover { background: var(--pink-wash); }
+.issue-no { font: 900 34px/1 var(--display); font-stretch: 70%; color: var(--pink-deep); text-align: right; font-variant-numeric: tabular-nums; }
+.issue-when, .issue-c { font: 500 13px var(--mono); color: var(--blue-text); }
+.issue-c { text-align: right; }
+.issue-t { font: 650 18px/1.3 var(--display); }
+.issues a:hover .issue-t { text-decoration: underline; text-decoration-color: var(--pink); text-decoration-thickness: 2px; }
+
+/* ── About ── */
+.prose h2 { font: 900 22px/1.15 var(--display); font-stretch: 112%; text-transform: uppercase; color: var(--blue-text); margin: 34px 0 12px; }
+.prose p, .prose ol { margin-bottom: 14px; max-width: 68ch; }
+.prose ol { padding-left: 1.3em; }
+.prose li { margin-bottom: 8px; }
+
+/* ── Footer: the back cover, pink again ── */
+.foot { background: var(--pink); position: relative; margin-top: 40px; }
+.foot-in { position: relative; z-index: 1; max-width: 1440px; margin: 0 auto; padding: 34px var(--gutter) 40px; display: grid; grid-template-columns: auto minmax(0, 620px) auto; gap: 18px 48px; align-items: start; font-size: 15px; line-height: 1.55; }
+.foot-name { font: 900 26px/.95 var(--display); font-stretch: 118%; letter-spacing: -.03em; }
+.foot-name a { color: var(--overprint); text-decoration: none; }
+.foot-nav { display: flex; flex-direction: column; gap: 6px; font: 700 13px var(--mono); letter-spacing: .06em; text-transform: uppercase; }
+.foot a { text-decoration-color: var(--ink); }
+
+/* ── Narrower screens ── */
+@media (max-width: 1180px) {
+  .issue { grid-template-columns: minmax(0, 1fr); }
+  .rail details { position: static; border-top: 2px solid var(--ink); border-bottom: 2px solid var(--ink); padding: 12px 0 2px; margin-bottom: 30px; }
+  .rail summary { padding-bottom: 10px; }
+  .rail-list { display: flex; flex-wrap: wrap; gap: 0 22px; padding-bottom: 8px; }
+}
+@media (max-width: 900px) {
+  .row { grid-template-columns: minmax(0, 1fr); }
+  .margin { position: static; border-left: 0; border-top: 1px solid var(--blue); padding: 16px 0 0; margin-top: 26px; }
+  .foot-in { grid-template-columns: 1fr; }
+  .issues a { grid-template-columns: 56px minmax(0, 1fr); gap: 4px 14px; }
+  .issue-no { grid-row: span 3; font-size: 30px; }
+  .issue-c { text-align: left; }
+}
+@media (max-width: 640px) {
+  body { font-size: 17px; }
+  .mast-nav { align-self: flex-start; }
+  .mast-in { min-height: 0; padding-bottom: 22px; }
+  .mast-title { font-size: 38px; margin-top: 14px; }
+  .mast-no { font-size: 60px; top: 10px; bottom: auto; line-height: .85; }
+  .band-in > .band-topics { display: block; }
+  .band-topics dt, .band-topics dd { display: inline; }
+  .band-topics dd { margin-left: .5em; }
+  .lede { font-size: 18px; }
+  .topic-head { margin-left: 0; }
+  .item { padding-left: 0; padding-top: 18px; }
+  .item-n { position: static; display: block; width: auto; text-align: left; font-size: 34px; margin-bottom: 4px; }
+  .item:target::before { left: auto; right: 0; top: 18px; }
+  .struck { margin-left: 0; }
+  .pager { grid-template-columns: 1fr 1fr; }
+  .pager-all { grid-column: 1 / -1; grid-row: 2; justify-self: start; }
+  .pager-next { grid-column: 2; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
+@media print {
+  .rail, .mast-nav, .pager, .skip { display: none; }
+}

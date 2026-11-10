@@ -1,0 +1,150 @@
+---
+layout: default
+---
+{%- assign ins = page.insights -%}
+{%- capture headline -%}{% if page.headline %}{{ page.headline | escape | replace: "-", "‑" }}{% else %}{{ page.digest | escape }}, week to {{ page.period_end | date: "%-d %B %Y" }}{% endif %}{%- endcapture -%}
+{% include issue-band.html issue=page %}
+
+<main id="main" class="issue">
+  <nav class="rail" aria-label="In this issue">
+    <details open>
+      <summary>In this issue</summary>
+      <ol class="rail-list">
+        <li><a href="#overview">Overview</a></li>
+        {%- for s in ins.sections %}
+        <li><a href="#{{ s.key }}">{{ s.heading }}</a></li>
+        {%- endfor %}
+        {%- if ins.directions_html.size > 0 %}<li><a href="#directions">Research directions</a></li>{% endif %}
+        {%- if page.items.size > 0 %}<li><a href="#items">Items <span class="rail-count">1–{{ page.items.size }}</span></a></li>{% endif %}
+        {%- if page.suggestions.size > 0 %}<li><a href="#suggested">Suggested sources</a></li>{% endif %}
+      </ol>
+    </details>
+  </nav>
+
+  <div class="flow">
+    <section class="row lead" id="overview" aria-labelledby="headline">
+      <div class="col">
+        <h1 id="headline">{{ headline }}</h1>
+        {%- if ins %}
+        <p class="lede">{{ ins.overview_html }}</p>
+        {%- elsif page.items.size == 0 %}
+        <p class="stamp" role="note">Nothing new was summarised this period</p>
+        {%- else %}
+        <p class="stamp" role="note">No combined insights this week</p>
+        <p class="lede">The items are below; the step that compares them didn't produce insights this time.</p>
+        {%- endif %}
+      </div>
+      {%- if page.items.size > 0 %}
+      <aside class="margin" aria-label="Sources this week">
+        <p class="margin-head">Sources</p>
+        <ul class="tally">
+          {%- assign by_source = page.items | group_by: "source" | sort: "size" | reverse -%}
+          {%- for g in by_source %}
+          <li><span>{{ g.name | escape }}</span><span class="tally-n">{{ g.size }}</span></li>
+          {%- endfor %}
+        </ul>
+      </aside>
+      {%- endif %}
+    </section>
+
+    {%- for s in ins.sections %}
+    <section class="row" id="{{ s.key }}" aria-labelledby="h-{{ s.key }}">
+      <div class="col">
+        <h2 id="h-{{ s.key }}">{{ s.heading }}</h2>
+        {%- for e in s.entries %}
+        <div class="entry">
+          <h3>{{ e.title | escape }}</h3>
+          <p>{{ e.description_html }}</p>
+        </div>
+        {%- endfor %}
+      </div>
+      {%- assign nums = "" | split: "" -%}
+      {%- for e in s.entries %}{% assign nums = nums | concat: e.items %}{% endfor -%}
+      {%- assign nums = nums | uniq | sort -%}
+      {%- if nums.size > 0 %}
+      <aside class="margin" aria-label="Items cited in {{ s.heading }}">
+        <p class="margin-head">Cited here</p>
+        <ol class="refs">
+          {%- for n in nums limit: 8 %}{% assign idx = n | minus: 1 %}{% assign it = page.items[idx] %}{% if it %}
+          <li><a href="#item-{{ n }}"><span class="ref-n">{{ n }}</span><span class="ref-t">{{ it.title | escape }}</span><span class="ref-m">{{ it.source | escape }} · {{ it.type }}</span></a></li>
+          {%- endif %}{% endfor %}
+        </ol>
+        {%- if nums.size > 8 %}<p class="margin-more">and {{ nums.size | minus: 8 }} more</p>{% endif %}
+      </aside>
+      {%- endif %}
+    </section>
+    {%- endfor %}
+
+    {%- if ins.directions_html.size > 0 %}
+    <section class="row" id="directions" aria-labelledby="h-directions">
+      <div class="col">
+        <h2 id="h-directions">Research directions</h2>
+        <ol class="directions">
+          {%- for d in ins.directions_html %}
+          <li>{{ d }}</li>
+          {%- endfor %}
+        </ol>
+      </div>
+    </section>
+    {%- endif %}
+
+    {%- if page.items.size > 0 %}
+    <section class="items" id="items" aria-labelledby="h-items">
+      <h2 id="h-items" class="items-head">Items</h2>
+      {%- assign groups = page.items | group_by: "topic" -%}
+      {%- for g in groups %}
+      <div class="topic">
+        <h3 class="topic-head">{{ g.name | escape }} <span class="topic-n">{{ g.size }}</span></h3>
+        {%- for it in g.items %}
+        <article class="item" id="item-{{ it.n }}" aria-labelledby="t-{{ it.n }}">
+          <span class="item-n" aria-hidden="true">{{ it.n }}</span>
+          <h4 id="t-{{ it.n }}" class="item-t"><a href="{{ it.url }}"><span class="vh">Item {{ it.n }}: </span>{{ it.title | escape | replace: "-", "‑" }}<svg class="ext" viewBox="0 0 12 12" aria-hidden="true"><path d="M4 2h6v6M10 2 3 9" fill="none" stroke="currentColor" stroke-width="1.6"/></svg></a></h4>
+          <p class="item-m">{{ it.source | escape }} · {{ it.type }}{% if it.date %} · <time datetime="{{ it.date }}">{{ it.date | date: "%-d %b %Y" }}</time>{% endif %}{% if it.also.size > 0 %} · also {{ it.also | join: ", " | escape }}{% endif %}</p>
+          <p class="item-s">{{ it.summary_html }}</p>
+          {%- if it.findings_html.size > 0 %}
+          <ul class="item-f">
+            {%- for f in it.findings_html %}<li>{{ f }}</li>{% endfor %}
+          </ul>
+          {%- endif %}
+          {%- if it.why_html != "" %}
+          <p class="item-w"><b>Why it matters</b> {{ it.why_html }}</p>
+          {%- endif %}
+        </article>
+        {%- endfor %}
+      </div>
+      {%- endfor %}
+      {%- if page.hidden_items > 0 %}
+      <p class="struck" role="note">{{ page.hidden_items }} more item{% if page.hidden_items != 1 %}s{% endif %} this period, not shown</p>
+      {%- endif %}
+    </section>
+    {%- endif %}
+
+    {%- if page.suggestions.size > 0 %}
+    <section class="row" id="suggested" aria-labelledby="h-suggested">
+      <div class="col">
+        <h2 id="h-suggested">Suggested sources</h2>
+        <p class="note">Sources ResearchHub found this week that it doesn't follow yet: linked from the items, or suggested for a topic with little coverage.</p>
+        <ul class="sugg">
+          {%- for s in page.suggestions %}
+          <li><a href="{{ s.url }}">{{ s.name | escape }}</a> <span class="sugg-type">{{ s.type }}</span>{% if s.reason_html != "" %}<span class="sugg-r">{{ s.reason_html }}</span>{% endif %}</li>
+          {%- endfor %}
+        </ul>
+      </div>
+    </section>
+    {%- endif %}
+
+    {%- assign same = site.digests | where: "digest_slug", page.digest_slug | sort: "date" -%}
+    {%- for d in same %}{% if d.url == page.url %}{% assign i = forloop.index0 %}{% endif %}{% endfor -%}
+    {%- assign prev_i = i | minus: 1 -%}{%- assign next_i = i | plus: 1 -%}
+    <nav class="pager" aria-label="More {{ page.digest | escape }} issues">
+      {%- if prev_i >= 0 %}{% assign p = same[prev_i] %}
+      <a class="pager-prev" href="{{ p.url | relative_url }}"><span class="pager-dir">Previous issue</span><span class="pager-t">No. {{ p.number }} · {% include date-range.html from=p.period_start to=p.period_end %}</span></a>
+      {%- endif %}
+      <a class="pager-all" href="{{ '/' | relative_url }}#archive"><span class="pager-dir">All issues</span></a>
+      {%- if next_i < same.size %}{% assign n = same[next_i] %}
+      <a class="pager-next" href="{{ n.url | relative_url }}"><span class="pager-dir">Next issue</span><span class="pager-t">No. {{ n.number }} · {% include date-range.html from=n.period_start to=n.period_end %}</span></a>
+      {%- endif %}
+    </nav>
+    {%- if page.model %}<p class="colophon">Summaries and insights by {{ page.model | escape }} through OpenRouter.</p>{% endif %}
+  </div>
+</main>

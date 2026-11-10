@@ -1,0 +1,17 @@
+{%- assign latest = site.digests | sort: "date" | last -%}
+{%- if page.layout == "issue" -%}{%- assign mast_number = page.number -%}
+{%- elsif page.url == "/" -%}{%- assign mast_number = latest.number -%}
+{%- else -%}{%- assign mast_number = nil -%}{%- endif -%}
+<header class="mast">
+  <div class="mast-in">
+    <a class="mast-title" href="{{ '/' | relative_url }}">ResearchHub<br>Digest</a>
+    <nav class="mast-nav" aria-label="Site">
+      <a href="{{ '/' | relative_url }}"{% if page.url == "/" %} aria-current="page"{% endif %}>Issues</a>
+      <a href="{{ '/about/' | relative_url }}"{% if page.url == "/about/" %} aria-current="page"{% endif %}>About</a>
+      <a href="{{ site.project_url }}">GitHub</a>
+    </nav>
+    {%- if mast_number %}
+    <span class="mast-no" aria-hidden="true">{{ mast_number }}</span>
+    {%- endif %}
+  </div>
+</header>

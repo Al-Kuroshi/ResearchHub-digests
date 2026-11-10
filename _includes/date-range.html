@@ -1,0 +1,6 @@
+{%- assign a = include.from | date: "%Y-%m" -%}{%- assign b = include.to | date: "%Y-%m" -%}
+{%- if a == b -%}
+<time datetime="{{ include.from }}">{{ include.from | date: "%-d" }}</time>–<time datetime="{{ include.to }}">{{ include.to | date: "%-d %b %Y" }}</time>
+{%- else -%}
+<time datetime="{{ include.from }}">{{ include.from | date: "%-d %b" }}</time> – <time datetime="{{ include.to }}">{{ include.to | date: "%-d %b %Y" }}</time>
+{%- endif -%}

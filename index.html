@@ -1,0 +1,50 @@
+---
+layout: default
+title: Issues
+body_class: home
+---
+{%- assign issues = site.digests | sort: "date" | reverse -%}
+{%- assign latest = issues | first -%}
+{%- if latest %}{% include issue-band.html issue=latest %}{% endif %}
+
+<main id="main" class="home-main">
+  {%- if latest %}
+  <section class="row lead" aria-labelledby="latest-h">
+    <div class="col">
+      <h1 id="latest-h"><a href="{{ latest.url | relative_url }}">{% if latest.headline %}{{ latest.headline | escape | replace: "-", "‑" }}{% else %}{{ latest.digest | escape }}, week to {{ latest.period_end | date: "%-d %B %Y" }}{% endif %}</a></h1>
+      {%- if latest.insights %}<p class="lede">{{ latest.insights.overview_html | strip_html }}</p>{% endif %}
+      <a class="read" href="{{ latest.url | relative_url }}">Read the latest issue, No. {{ latest.number }}<svg viewBox="0 0 16 12" aria-hidden="true"><path d="M1 6h13M9 1l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg></a>
+    </div>
+    <aside class="margin" aria-label="About this site">
+      <p class="margin-head">What this is</p>
+      <p class="margin-p">Each week ResearchHub reads the blogs, GitHub releases and YouTube channels it follows, summarises every new item and writes combined insights across them. Every insight cites the numbered items it comes from. <a href="{{ '/about/' | relative_url }}">How it works</a></p>
+    </aside>
+  </section>
+  {%- else %}
+  <section class="row lead"><div class="col"><h1>No issues yet</h1><p class="lede">The first digest appears here after ResearchHub sends it.</p></div></section>
+  {%- endif %}
+
+  {%- if issues.size > 0 %}
+  <section class="archive" id="archive" aria-labelledby="archive-h">
+    <h2 id="archive-h" class="archive-head">All issues</h2>
+    {%- assign by_digest = issues | group_by: "digest" -%}
+    {%- for g in by_digest %}
+    <div class="shelf">
+      <h3 class="shelf-head">{{ g.name | escape }} <span class="topic-n">{{ g.size }}</span></h3>
+      <ol class="issues">
+        {%- for d in g.items %}
+        <li>
+          <a href="{{ d.url | relative_url }}">
+            <span class="issue-no">{{ d.number }}</span>
+            <span class="issue-when">{% include date-range.html from=d.period_start to=d.period_end %}</span>
+            <span class="issue-t">{% if d.headline %}{{ d.headline | escape | replace: "-", "‑" }}{% else %}{{ d.total_items }} items{% endif %}</span>
+            <span class="issue-c">{{ d.total_items }} item{% if d.total_items != 1 %}s{% endif %}</span>
+          </a>
+        </li>
+        {%- endfor %}
+      </ol>
+    </div>
+    {%- endfor %}
+  </section>
+  {%- endif %}
+</main>

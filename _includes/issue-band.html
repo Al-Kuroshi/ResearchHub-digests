@@ -1,0 +1,15 @@
+{%- assign d = include.issue -%}
+<div class="band">
+  <dl class="band-in">
+    <div><dt>Digest</dt><dd><b>{{ d.digest | escape }}</b></dd></div>
+    <div><dt>Issue</dt><dd><b>{{ d.number }}</b></dd></div>
+    <div><dt>Period</dt><dd>{% include date-range.html from=d.period_start to=d.period_end %}</dd></div>
+    <div><dt>Items</dt><dd><b>{{ d.total_items }}</b> from <b>{{ d.source_count }}</b> source{% if d.source_count != 1 %}s{% endif %}</dd></div>
+    {%- if d.types.size > 0 %}
+    <div><dt>Types</dt><dd>{% for t in d.types %}{{ t.name }} {{ t.count }}{% unless forloop.last %} · {% endunless %}{% endfor %}</dd></div>
+    {%- endif %}
+    {%- if d.topics.size > 0 %}
+    <div class="band-topics"><dt>Topics</dt><dd>{% for t in d.topics %}{{ t.name | escape }} {{ t.count }}{% unless forloop.last %} · {% endunless %}{% endfor %}</dd></div>
+    {%- endif %}
+  </dl>
+</div>

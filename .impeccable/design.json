@@ -1,0 +1,153 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-10T13:30:00Z",
+  "title": "Design System: ResearchHub Digest",
+  "extensions": {
+    "colorMeta": {
+      "pink": { "role": "primary", "displayName": "Fluorescent Pink", "canonical": "#FF48B0", "tonalRamp": ["#4A0A2E", "#7A0F4B", "#AD1368", "#E0137E", "#FF48B0", "#FF7DC6", "#FFB3DD", "#FFE3F2"] },
+      "pink-deep": { "role": "primary", "displayName": "Heavy Pink", "canonical": "#E0137E", "tonalRamp": ["#3D0622", "#650A38", "#900E50", "#BA1167", "#E0137E", "#F2509F", "#F98FC3", "#FDD6EA"] },
+      "blue": { "role": "secondary", "displayName": "Riso Blue", "canonical": "#0078BF", "tonalRamp": ["#001F33", "#00375A", "#00507F", "#00639F", "#0078BF", "#3D9AD3", "#86C1E6", "#D3EAF7"] },
+      "blue-text": { "role": "secondary", "displayName": "Blue Text", "canonical": "#00639F", "tonalRamp": ["#001A2B", "#002F4D", "#00456E", "#00639F", "#0078BF", "#3D9AD3", "#86C1E6", "#D3EAF7"] },
+      "overprint": { "role": "secondary", "displayName": "Overprint Navy", "canonical": "#002284", "tonalRamp": ["#000A26", "#001245", "#001A65", "#002284", "#2A45A0", "#6177BD", "#A3B0DB", "#DDE2F3"] },
+      "paper": { "role": "neutral", "displayName": "Bond Paper", "canonical": "#F6F6F1", "tonalRamp": ["#26261F", "#45453D", "#68685E", "#8E8E83", "#B5B5AA", "#D6D6CE", "#EBEBE5", "#F6F6F1"] },
+      "ink": { "role": "neutral", "displayName": "Ink", "canonical": "#1D2340", "tonalRamp": ["#0E1120", "#1D2340", "#3D4466", "#5E658A", "#8389A8", "#A9AEC6", "#D0D3E2", "#EEEFF5"] },
+      "ink-soft": { "role": "neutral", "displayName": "Soft Ink", "canonical": "#3D4466", "tonalRamp": ["#0E1120", "#1D2340", "#3D4466", "#5E658A", "#8389A8", "#A9AEC6", "#D0D3E2", "#EEEFF5"] },
+      "knockout": { "role": "neutral", "displayName": "Knockout White", "canonical": "#FFFFFF" },
+      "rule": { "role": "neutral", "displayName": "Hairline", "canonical": "rgba(29, 35, 64, .16)" },
+      "pink-wash": { "role": "primary", "displayName": "Pink Wash", "canonical": "rgba(255, 72, 176, .13)" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Masthead title only (38px under 640px)." },
+      "numeral": { "displayName": "Numeral", "purpose": "Item, archive and margin reference numbers in pink-deep; the masthead issue numeral at clamp(150px, 21vw, 300px) in blue with multiply." },
+      "headline": { "displayName": "Headline", "purpose": "One h1 per page." },
+      "section": { "displayName": "Section", "purpose": "Uppercase blue-text section headings (insight sections, Items, All issues, about h2)." },
+      "title": { "displayName": "Title", "purpose": "Entry, item, suggestion and archive titles." },
+      "lede": { "displayName": "Lede", "purpose": "Overview paragraph under the h1 (18px under 640px)." },
+      "body": { "displayName": "Body", "purpose": "Reading column, capped at 64-68ch." },
+      "label": { "displayName": "Label", "purpose": "Uppercase mono headings for the rail and margin column." },
+      "meta": { "displayName": "Meta", "purpose": "Source, type, date and count lines; the issue band." }
+    },
+    "shadows": [
+      { "name": "misregistration", "value": "2px 1px 0 rgba(0, 120, 191, .38)", "purpose": "Text-shadow on the masthead title only: blue drum slightly off register. Not elevation." }
+    ],
+    "motion": [
+      { "name": "ease-settle", "value": "cubic-bezier(.16, 1, .3, 1)", "purpose": "Shared easing for the masthead register, the registration mark and the read-button arrow." },
+      { "name": "register", "value": "1.1s ease-settle, from text-shadow 9px 5px and translate(-3px, -2px)", "purpose": "Masthead title misregistration settle, once at load." },
+      { "name": "mark", "value": ".5s ease-settle, from scale(1.8) rotate(-20deg) opacity 0", "purpose": "Registration mark stamped on a :target item." },
+      { "name": "hover", "value": ".15s background-color, color", "purpose": "Citation, read button and archive row hover." }
+    ],
+    "breakpoints": [
+      { "name": "rail-folds", "value": "1180px" },
+      { "name": "margin-stacks", "value": "900px" },
+      { "name": "phone", "value": "640px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Masthead",
+      "kind": "nav",
+      "refersTo": "masthead",
+      "description": "Pink flood with the title in overprint navy and the issue numeral in blue multiplied over the flood (issue pages and home only).",
+      "html": "<header class=\"ds-mast\"><nav class=\"ds-mast-nav\"><a href=\"#\" aria-current=\"page\">Issues</a><a href=\"#\">About</a><a href=\"#\">GitHub</a></nav><a class=\"ds-mast-title\" href=\"#\">ResearchHub<br>Digest</a><span class=\"ds-mast-no\" aria-hidden=\"true\">28</span></header>",
+      "css": ".ds-mast { position: relative; overflow: hidden; isolation: isolate; background: var(--pink, #FF48B0); padding: 24px 32px 28px; min-height: 200px; display: flex; flex-direction: column; justify-content: space-between; } .ds-mast-nav { position: relative; z-index: 3; align-self: flex-end; display: flex; gap: 24px; font: 700 13px/1 'JetBrains Mono', monospace; letter-spacing: .1em; text-transform: uppercase; } .ds-mast-nav a { color: var(--ink, #1D2340); text-decoration: none; padding: 6px 0; border-bottom: 2px solid transparent; } .ds-mast-nav a:hover, .ds-mast-nav a[aria-current] { border-bottom-color: var(--ink, #1D2340); } .ds-mast-nav a:focus-visible { outline: 3px solid var(--blue, #0078BF); outline-offset: 2px; } .ds-mast-title { position: relative; z-index: 1; width: max-content; font: 900 64px/.86 Archivo, 'Arial Narrow', sans-serif; font-stretch: 118%; letter-spacing: -.035em; color: var(--overprint, #002284); text-decoration: none; text-shadow: 2px 1px 0 rgba(0, 120, 191, .38); } .ds-mast-no { position: absolute; right: 28px; bottom: -.17em; font: 900 200px/1 Archivo, sans-serif; font-stretch: 72%; letter-spacing: -.04em; color: var(--blue, #0078BF); mix-blend-mode: multiply; font-variant-numeric: tabular-nums; }"
+    },
+    {
+      "name": "Issue Band",
+      "kind": "custom",
+      "refersTo": "issue-band",
+      "description": "Dense blue flood carrying every fact of the issue in mono.",
+      "html": "<dl class=\"ds-band\"><div><dt>Digest</dt><dd><b>All sources</b></dd></div><div><dt>Issue</dt><dd><b>28</b></dd></div><div><dt>Period</dt><dd>3–10 Nov 2026</dd></div><div><dt>Items</dt><dd><b>16</b> from <b>4</b> sources</dd></div></dl>",
+      "css": ".ds-band { margin: 0; background: var(--blue, #0078BF); color: #fff; padding: 11px 32px; display: flex; flex-wrap: wrap; gap: 6px 30px; font: 500 12.5px/1.45 'JetBrains Mono', monospace; letter-spacing: .03em; } .ds-band > div { display: flex; gap: 8px; } .ds-band dt { text-transform: uppercase; letter-spacing: .12em; } .ds-band dt::after { content: ':'; } .ds-band dd { margin: 0; } .ds-band b { font-weight: 800; }"
+    },
+    {
+      "name": "Citation",
+      "kind": "chip",
+      "refersTo": "cite",
+      "description": "Pink ink block with the item number in ink; every reference to an item.",
+      "html": "<p class=\"ds-p\">Several items report sub-exponential bounds <a class=\"ds-cite\" href=\"#\">1</a><a class=\"ds-cite\" href=\"#\">4</a>.</p>",
+      "css": ".ds-p { font: 400 17.5px/1.62 Literata, Georgia, serif; color: var(--ink, #1D2340); } .ds-cite { display: inline-block; min-width: 1.7em; padding: 0 .32em; margin: 0 .06em; text-align: center; background: var(--pink, #FF48B0); color: var(--ink, #1D2340); font: 700 .74em/1.55 'JetBrains Mono', monospace; text-decoration: none; vertical-align: .08em; font-variant-numeric: tabular-nums; transition: background-color .15s, color .15s; } .ds-cite:hover { background: var(--overprint, #002284); color: #fff; } .ds-cite:focus-visible { outline: 3px solid var(--blue, #0078BF); outline-offset: 2px; }"
+    },
+    {
+      "name": "Item",
+      "kind": "card",
+      "refersTo": "item",
+      "description": "Numbered item with hanging pink-deep numeral; :target prints a pink registration mark.",
+      "html": "<article class=\"ds-item\" tabindex=\"-1\"><span class=\"ds-item-n\">4</span><h4 class=\"ds-item-t\"><a href=\"#\">OpenAI claims it just did the impossible</a></h4><p class=\"ds-item-m\">Two Minute Papers · Video · 30 Oct 2026</p><p class=\"ds-item-s\">A summary of the item in Literata, capped at 68ch.</p><ul class=\"ds-item-f\"><li>A key finding.</li></ul></article>",
+      "css": ".ds-item { position: relative; padding: 20px 0 22px 88px; border-bottom: 1px solid rgba(29, 35, 64, .16); color: var(--ink, #1D2340); } .ds-item:focus, .ds-item:target { outline: none; background: linear-gradient(90deg, rgba(255, 72, 176, .13), transparent 70%); } .ds-item-n { position: absolute; left: 0; top: 14px; width: 68px; text-align: right; font: 900 44px/1 Archivo, sans-serif; font-stretch: 70%; letter-spacing: -.02em; color: var(--pink-deep, #E0137E); font-variant-numeric: tabular-nums; } .ds-item-t { margin: 0; font: 700 20px/1.28 Archivo, sans-serif; } .ds-item-t a { color: inherit; text-decoration: none; } .ds-item-t a:hover { text-decoration: underline; text-decoration-color: var(--pink, #FF48B0); text-decoration-thickness: 2.5px; } .ds-item-m { margin: 6px 0 10px; font: 500 12.5px/1.5 'JetBrains Mono', monospace; color: var(--blue-text, #00639F); } .ds-item-s { margin: 0; max-width: 68ch; font: 400 16.5px/1.62 Literata, Georgia, serif; } .ds-item-f { margin: 10px 0 0; padding-left: 1.1em; font: 400 16px/1.62 Literata, serif; } .ds-item-f li::marker { content: '\\25A0  '; color: var(--pink, #FF48B0); font-size: .7em; }"
+    },
+    {
+      "name": "Read Button",
+      "kind": "button",
+      "refersTo": "button-read",
+      "description": "The one primary action: blue flood, swaps to pink on hover.",
+      "html": "<a class=\"ds-read\" href=\"#\">Read the latest issue, No. 28<svg viewBox=\"0 0 16 12\" aria-hidden=\"true\"><path d=\"M1 6h13M9 1l5 5-5 5\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\"/></svg></a>",
+      "css": ".ds-read { display: inline-flex; align-items: center; gap: 12px; padding: 13px 18px; background: var(--blue, #0078BF); color: #fff; font: 800 15px Archivo, sans-serif; text-transform: uppercase; letter-spacing: .03em; text-decoration: none; transition: background-color .15s, color .15s; } .ds-read svg { width: 16px; height: 12px; transition: transform .2s cubic-bezier(.16, 1, .3, 1); } .ds-read:hover { background: var(--pink, #FF48B0); color: var(--ink, #1D2340); } .ds-read:hover svg { transform: translateX(4px); } .ds-read:focus-visible { outline: 3px solid var(--blue, #0078BF); outline-offset: 2px; }"
+    },
+    {
+      "name": "Topic Head",
+      "kind": "custom",
+      "refersTo": "topic-head",
+      "description": "Blue flood opening each topic group of items, with a mono count.",
+      "html": "<h3 class=\"ds-topic\">Software engineering <span>5</span></h3>",
+      "css": ".ds-topic { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 0; background: var(--blue, #0078BF); color: #fff; padding: 9px 14px; font: 800 16px/1.25 Archivo, sans-serif; font-stretch: 108%; letter-spacing: .01em; text-transform: uppercase; } .ds-topic span { font: 700 12.5px 'JetBrains Mono', monospace; }"
+    },
+    {
+      "name": "Stamp",
+      "kind": "custom",
+      "refersTo": "stamp",
+      "description": "Printed state for an issue without insights or items.",
+      "html": "<p class=\"ds-stamp\" role=\"note\">No combined insights this week</p>",
+      "css": ".ds-stamp { display: inline-block; margin: 6px 0 16px; padding: 8px 14px; border: 2.5px solid var(--blue-text, #00639F); color: var(--blue-text, #00639F); font: 800 13.5px/1.2 'JetBrains Mono', monospace; letter-spacing: .1em; text-transform: uppercase; transform: rotate(-1.5deg); }"
+    },
+    {
+      "name": "Struck Line",
+      "kind": "custom",
+      "refersTo": "struck",
+      "description": "Printed state for items not shown.",
+      "html": "<p class=\"ds-struck\" role=\"note\">3 more items this period, not shown</p>",
+      "css": ".ds-struck { margin: 0; font: 600 13px 'JetBrains Mono', monospace; letter-spacing: .04em; color: var(--ink-soft, #3D4466); text-decoration: line-through; text-decoration-color: var(--pink, #FF48B0); text-decoration-thickness: 3px; }"
+    },
+    {
+      "name": "Type Tag",
+      "kind": "chip",
+      "refersTo": "type-tag",
+      "description": "Outlined mono tag for a suggested source's type.",
+      "html": "<span class=\"ds-tag\">YouTube</span>",
+      "css": ".ds-tag { display: inline-block; padding: 1px 7px; border: 1.5px solid var(--blue-text, #00639F); color: var(--blue-text, #00639F); font: 600 11.5px/1.5 'JetBrains Mono', monospace; letter-spacing: .06em; text-transform: uppercase; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Two-Ink Bulletin",
+    "overview": "Every page is a sheet off a small risograph press that owns exactly two drums: fluorescent pink and riso blue. Ink is spent loudly in the frame (a pink flood masthead, a dense blue issue band, blue topic floods, a pink back cover) and sparingly in the reading column, which stays calm paper and dark ink so a week of research can be read in minutes. Where the two inks meet they overprint, so the blue issue numeral multiplies to deep navy on the pink flood.\n\nThe system is about traceability as much as color. Items are numbered in a strict hanging margin; every insight cites them with pink ink blocks; following a citation prints a registration mark on the item. States are printed marks (a rotated stamp, a struck line, a registration mark), never new hues or soft UI chrome.\n\nAll styling lives in one stylesheet (`assets/css/site.css`) as custom properties on `:root`; new pages reuse its classes and tokens, never local colors.",
+    "keyCharacteristics": [
+      "Two inks plus paper and ink; overprint (multiply) is the only blending.",
+      "Floods in the frame, calm in the column.",
+      "Numbers are first-class: big condensed Archivo numerals, tabular figures everywhere.",
+      "Square corners, solid rules, no shadows for elevation.",
+      "One load motion (masthead misregistration settle) and one interaction motion (registration mark); both off under reduced motion."
+    ],
+    "rules": [
+      { "name": "The Two Drums Rule", "body": "Pink and blue are the only chromatic inks. A new color is a new drum the press doesn't have; express new meaning with a mark, a flood or an overprint instead.", "section": "colors" },
+      { "name": "The Ink-on-Pink Rule", "body": "Text on a pink flood is ink (#1D2340) or overprint navy; numerals on paper use pink-deep, never flat pink.", "section": "colors" },
+      { "name": "The Overprint Rule", "body": "Where blue sits on pink it uses `mix-blend-mode: multiply` (masthead numeral, favicon letter) or the precomputed overprint navy; never an arbitrary purple.", "section": "colors" },
+      { "name": "The Width-Axis Rule", "body": "Hierarchy comes from Archivo's width and weight, not from more families: wide for words, condensed for numbers.", "section": "typography" },
+      { "name": "The Tabular Rule", "body": "Every number that can sit in a column (items, issues, counts, citations) uses `font-variant-numeric: tabular-nums`.", "section": "typography" },
+      { "name": "The Flat Press Rule", "body": "Nothing floats. No box-shadows, no blur; separate things with rules, floods and space.", "section": "elevation" }
+    ],
+    "dos": [
+      "**Do** take every color from the `:root` tokens; pink and blue are the only inks.",
+      "**Do** set numerals on paper in pink-deep (#E0137E) and small blue text in blue-text (#00639F).",
+      "**Do** express states as printed marks (stamp, strike, registration mark) rather than new colors.",
+      "**Do** open new sections with a 2px ink rule and an uppercase Archivo section heading in blue-text.",
+      "**Do** keep the reading column at 64–68ch in Literata, and floods outside it.",
+      "**Do** wrap any new motion in the existing reduced-motion override."
+    ],
+    "donts": [
+      "**Don't** add a third chromatic color, gradients beyond the pink-wash target fade, or a grain texture.",
+      "**Don't** set flat pink text or numerals on paper, or white text on pink.",
+      "**Don't** round corners or add drop shadows.",
+      "**Don't** animate the reading column beyond short hover transitions (0.15–0.2s) and the registration mark.",
+      "**Don't** hide citations or source links; every item number and source stays visible and linked."
+    ]
+  }
+}

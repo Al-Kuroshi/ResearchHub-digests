@@ -1,0 +1,13 @@
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+vendor/
+Gemfile.lock
+
+# the local design sample; real digests are pushed by the ResearchHub API
+_digests/design-preview/
+
+# design-tool working files (screenshots, mockups)
+.impeccable/review/
+.impeccable/mocks/
