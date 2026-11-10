@@ -15,8 +15,8 @@ ResearchHub Digest is the public archive of the weekly digests made by
    new.
 2. **Summarised.** Each new item is read once, in full (the article, the
    release notes, or the video's captions or a local transcription), and a
-   language model writes a summary, key findings and why it matters. Only the
-   summary is kept; the original stays where it was published.
+   language model writes a summary, key findings and why it matters. Articles
+   aren't kept, only their summary; the original stays where it was published.
 3. **Compared.** Once a week the model reads all the summaries together and
    writes the issue's overview and insights: common themes, connections,
    emerging technologies, contradictions and important developments.
@@ -38,6 +38,6 @@ There can be several digests, each covering its own sources or topics. The
 ResearchHub is open source under the AGPL-3.0 license:
 [{{ site.project_url | remove: "https://" }}]({{ site.project_url }}). It runs
 on a small home server, uses free models through OpenRouter, and keeps only
-summaries, embeddings and links, never full articles or transcripts.
+summaries, embeddings, links and video transcripts, never full articles.
 
 ResearchHub Digest isn't affiliated with the sources it summarises.

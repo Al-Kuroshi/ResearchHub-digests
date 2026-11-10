@@ -37,7 +37,7 @@ body_class: home
           <a href="{{ d.url | relative_url }}">
             <span class="issue-no">{{ d.number }}</span>
             <span class="issue-when">{% include date-range.html from=d.period_start to=d.period_end %}</span>
-            <span class="issue-t">{% if d.headline %}{{ d.headline | escape | replace: "-", "‑" }}{% else %}{{ d.total_items }} items{% endif %}</span>
+            <span class="issue-t">{% if d.headline %}{{ d.headline | escape | replace: "-", "‑" }}{% else %}{{ d.digest | escape }}, week to {{ d.period_end | date: "%-d %B %Y" }}{% endif %}</span>
             <span class="issue-c">{{ d.total_items }} item{% if d.total_items != 1 %}s{% endif %}</span>
           </a>
         </li>

@@ -31,7 +31,11 @@ layout: default
         <p class="stamp" role="note">Nothing new was summarised this period</p>
         {%- else %}
         <p class="stamp" role="note">No combined insights this week</p>
+        {%- if page.items.size == 1 %}
+        <p class="lede">Only one new item this week, so there was nothing to compare it with. It's below.</p>
+        {%- else %}
         <p class="lede">The items are below; the step that compares them didn't produce insights this time.</p>
+        {%- endif %}
         {%- endif %}
       </div>
       {%- if page.items.size > 0 %}
